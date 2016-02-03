@@ -9,12 +9,12 @@ Proxmox
 Installation
 ^^^^^^^^^^^^
 
-Proxmox kommt entweder per klick als Template vom Provider auf den Server oder muss von Hand installiert werden.
+Proxmox kommt entweder per Klick als Template vom Provider auf den Server oder muss von Hand installiert werden.
 
 SSH
 ^^^
 
-Im laufenden Betrieb erfolgt die komplette Konfiguration über das Webinterface, trotzdem ist es wichtig sich für Notfälle SSH Zugriff einzurichten und den SSH Server abzusichern.
+Im laufenden Betrieb erfolgt die komplette Konfiguration über das Webinterface, trotzdem ist es wichtig, sich für Notfälle einen SSH Zugriff einzurichten und natürlich auch den SSH Server abzusichern.
 
 Per SSH mit dem Server verbinden
 
@@ -69,12 +69,21 @@ Die Zeile
 
 	PasswordAuthentication no
 
-Achtung, auch wenn yes auskommentiert ist besteht die Möglichkeit sich per Password zu verbinden, erst wenn no gesetzt ist und nicht auskommentiert ist, ist der Zugriff nur noch per Key möglich.
+Achtung, auch wenn yes auskommentiert ist besteht die Möglichkeit sich per Password zu verbinden, erst wenn 'no' gesetzt ist und nicht (mehr) auskommentiert ist, ist der Zugriff nur noch per Key möglich.
 Den Editor wieder verlassen und den SSH Server neu starten um die Einstellungen zu übernehmen
+
 
 ::
 
 	/etc/init.d/ssh restart
+
+::  
+        optional: kein direkter Root-Login
+
+_ToDo_: Als zusätzliche Sicherheitsstufe ist es möglich, (direkte) root-Logins komplett untersagen. 
+Dann muss der Login über einen zusätzlicn anzulegenden Benutzer (sshkey siehe oben) erfolgen. 
+Zudem hinreichend sicheres Passwort setzen und den User in die sudoers-Gruppe aufnehmen.
+
 
 Monitoring
 ^^^^^^^^^^
@@ -142,7 +151,11 @@ Im Reiter 'Memory' unter 'Automatically allocate memory within this range' 256 -
 
 Im Reiter 'Network' als Netzwerkkarte 'VirtIO' auswählen und die MAC Adresse der für diesen Vserver zu verwendenden öffentlichen IPv4 Adresse eintragen.
 
-Bestätigen und Anlegen
+Bestätigen und Anlegen, anschließend starten. 
+
+Fehlermeldungen während der Startphase werden unten im Log-Fenster angezeigt, erscheinen immer "oben", jedoch mit einigen Sekunden verzögerung. Details lassen sich ausklappen. Auf einigen Systemen ist es notwendig, die Harddisk auf "Writeback(insecure)" zu schalten, um das System zu starten zu können.
+
+Hinweis: Wenn das System später läuft, nicht vergesse, den Starttyp "at boot time" zu stellen.
 
 Ubuntu Server Installieren
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
