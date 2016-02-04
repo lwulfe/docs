@@ -84,7 +84,7 @@ iserlohn-2.freifunk-mk.de	dags1	lts14.2			02:00:00:69:ee:4b	5.196.175.52
 flingern-1.ffdus.de		dags1	lts14.2			02:00:00:a1:81:5f	51.255.150.68
 neander-2.ffnef.de		dags1				02:00:00:77:fe:8b	51.255.150.69
 service.ffdus.de		dags1	ipfire			02:00:00:d6:2e:36	51.255.150.70
-horst.ffdus			LES	arch	24G	350G	36:e2:87:5e:a4:87	10.155.6.112
+horst.ffdus			LES	arch	33G	500G	36:e2:87:5e:a4:87	10.155.6.112
 
 
 
