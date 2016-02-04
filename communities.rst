@@ -46,3 +46,44 @@ Neanderfunk
 
 Düsseldorf-Flingern
 -------------------
+
+Übersicht
+^^^^^^^^^
+
+Admins
+^^^^^^
+
+* Trickster (Silas)
+* Petabyteboy (Milan)
+* Adorfer (Andreas)
+
+
+
+Infrastruktur
+=============
+
+gemietete Hosts
+^^^^^^^^^^^^^^^
+
+name	owner	hoster	loc	typ			os	IPv4 (base) 	ipv4 (pool) 		IPv6
+dags1	Silas	OVH	RBX6	M-4C8T-32G-2x2T-500M	PM4	51.254.47.239	5.196.175.52-55 	51.255.150.68-71 2001:41d0:1008:07ef::/64
+paz	Sabine	SYS	RBX4	M-4C8T-32G-2x2T-250M	PM4	46.105.121.209	51.255.233.208-215 	2001:41d0:2:e8d1::/64
+vpn	Andreas NC		V-2C-6G-112G-100M	arch	37.120.171.253	2a03:4000:6:5100::/64	52:54:bb:f0:15:12
+ffgek0	Andreas NC		V-1C-2G-40G-100M	arch	46.38.238.147	2a03:4000:2:83::/64	52:54:27:00:19:46
+ffdus0	Andreas NC		V-1C-2G-30G-100M	arch	46.38.234.225	2a03:4000:2:bb::/64  	96:6d:cc:64:88:af
+pbbpg	Andreas	NC		V-2C-6G-230G-100M	arch	 5.45.96.247	2a03:4000:5:11e::/64	ea:83:a2:c2:e5:f8
+
+
+Virtuelle Hosts
+^^^^^^^^^^^^^^^
+fqdn				host	os	RAM	HDD 	mac			ipv4
+map.eulenfunk.de		dags1	arch			02:00:00:d6:a0:10 	51.255.150.71
+map2.eulenfunk.de 0		paz	arch 			02:00:00:06:2c:d0 	51.255.233.214
+flingern-3.ffdus.de 		paz	lts14.2			02:00:00:58:04:81 	51.255.233.215
+iserlohn-2.freifunk-mk.de	dags1	lts14.2			02:00:00:69:ee:4b	5.196.175.52
+flingern-1.ffdus.de		dags1	lts14.2			02:00:00:a1:81:5f	51.255.150.68
+neander-2.ffnef.de		dags1				02:00:00:77:fe:8b	51.255.150.69
+service.ffdus.de		dags1	ipfire			02:00:00:d6:2e:36	51.255.150.70
+horst.ffdus			LES	arch	24G	350G	36:e2:87:5e:a4:87	10.155.6.112
+
+
