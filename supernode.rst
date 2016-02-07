@@ -11,6 +11,8 @@ Installation
 
 Proxmox kommt entweder per Klick als Template vom Provider auf den Server oder muss von Hand installiert werden.
 
+Achtung: Hostname nachträglich ändern nur streng nach Promox-Howto (andernfalls: WebUI startet nach Hostreboot nimmer.)
+
 SSH
 ^^^
 
