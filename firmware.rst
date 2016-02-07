@@ -16,7 +16,8 @@ Flingern
 +----------------+-----------+-------------------+--------------------+-----------+--------------------------------------+
 |Broken (nightly)|2016.1pre  |untested packates  |2016020403-exp      |2015-02-04 |http://images.ffdus.de/broken/        |
 +----------------+-----------+-------------------+--------------------+-----------+--------------------------------------+
-*Stand 2016-02-01:* <br> 
+
+*Stand 2016-02-01:* 
 
 Vorarbeiten am Gluon Releasekanidaten herumgeschraubt, um beim offizielen Release schnellstmöglich auch eine stable bringen zu können.<br>
 Ein Testkanidat von Mitte Januar hat erhebliche Probleme mit "MoW" wenn zur Bootzeit kein Ethernetlink auf LAN(!) besteht. 
