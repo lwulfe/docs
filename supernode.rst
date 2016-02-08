@@ -72,6 +72,7 @@ Die Zeile
 	PasswordAuthentication no
 
 Achtung, auch wenn yes auskommentiert ist besteht die Möglichkeit sich per Password zu verbinden, erst wenn 'no' gesetzt ist und nicht (mehr) auskommentiert ist, ist der Zugriff nur noch per Key möglich.
+
 Den Editor wieder verlassen und den SSH Server neu starten um die Einstellungen zu übernehmen
 
 
@@ -79,12 +80,40 @@ Den Editor wieder verlassen und den SSH Server neu starten um die Einstellungen 
 
 	/etc/init.d/ssh restart
 
-::  
-        optional: kein direkter Root-Login
+Optional den SSH-Port ändern
+............................
+
+Um es den Script-Kiddies und Bots etwas schwerer zu machen, sollte der Port 22 auf einen hohen Port (mindestens über 1024) verändert werden. Dazu die Zeile
+
+::
+
+        Port 22
+        
+ändern z.B. in
+
+::
+         Port 62954
+
+WICHTIG: Diesen Port muss man sich dann merken, da man ihn später beim Aufruf von ssh angeben muss.
+
+Danach den Editor wieder verlassen und den SSH Server neu starten um die Einstellungen zu übernehmen.
+Den nachfolgenden ssh Kommandos muss man die Option "-p 62954" (kleines "p"!) und den scp Kommandos
+die Option "-P 62954" (großes "P"!).
+
+Z.B.:
+
+::
+
+        ssh -p 62954 root@111.222.333.444
+
+        
+Optional kein direkten Root-Login erlauben
+..........................................
 
 _ToDo_: Als zusätzliche Sicherheitsstufe ist es möglich, (direkte) root-Logins komplett untersagen. 
 Dann muss der Login über einen zusätzlicn anzulegenden Benutzer (sshkey siehe oben) erfolgen. 
 Zudem hinreichend sicheres Passwort setzen und den User in die sudoers-Gruppe aufnehmen.
+
 
 
 Monitoring
