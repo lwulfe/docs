@@ -1,22 +1,108 @@
 Communities
 ===========
 
+Organigram
+----------
++---------+-----------+----------------+-------------+
+|Eulenfunk|Flingern   |                |             |
++         +-----------+----------------+-------------+
+|         |Fichtenfunk|Märkischer Kreis|Altena       |
++         +           +                +-------------+
+|         |           |                |Halver       |
++         +           +                +-------------+
+|         |           |                |Hemer        |
++         +           +                +-------------+
+|         |           |                |Herscheid    |
++         +           +                +-------------+
+|         |           |                |Iserlohn     |
++         +           +                +-------------+
+|         |           |                |Lüdenscheid  |
++         +           +                +-------------+
+|         |           |                |Meinerzhagen |
++         +           +                +-------------+
+|         |           |                |Menden       |
++         +           +                +-------------+
+|         |           |                |Neuenrade    |
++         +           +                +-------------+
+|         |           |                |Plettenberg  |
++         +           +                +-------------+
+|         |           |                |Schalksmühle |
++         +           +                +-------------+
+|         |           |                |Werdohl      |
++         +           +----------------+-------------+
+|         |           |Oberberg        |Bergneustadt |
++         +           +                +-------------+
+|         |           |                |Gummersbach  |
++         +           +                +-------------+
+|         |           |                |Marienheide  |
++         +           +----------------+-------------+
+|         |           |Siegerland      |Bad Berleburg|
++         +           +                +-------------+
+|         |           |                |Burbach      |
++         +           +                +-------------+
+|         |           |                |Erntebrück   |
++         +           +                +-------------+
+|         |           |                |Hilchenbach  |
++         +           +                +-------------+
+|         |           |                |Kreuztal     |
++         +           +                +-------------+
+|         |           |                |Netphen      |
++         +           +                +-------------+
+|         |           |                |Siegen       |
++         +           +                +-------------+
+|         |           |                |Wilnsdorf    |
++         +-----------+----------------+-------------+
+|         |GL         |                |             |
++         +-----------+----------------+-------------+
+|         |Neanderfunk|                |             |
++---------+-----------+----------------+-------------+
+
 Fichtenfunk
 -----------
 Übersicht
 ^^^^^^^^^
 
-Websites
-^^^^^^^^
-http://www.freifunk-mk.de/
-http://www.freifunk-iserlohn.de/
+Fichtenfunk ist Freifunk entlang der Sauerlandlinie A45 oder von Iserlohn bis Siegen. Aufgrund der Routerzahl aber auch der Geographischen Ausdehnung, ist der Fichtenfunk mehrfach unterteilt.
 
-Admins
-^^^^^^
+Auf erster Ebene unterteilen wir in die 3 Kreise Märkischer Kreis, Oberbergischer Kreis und Kreis Siegen-Wittgenstein. Auf dieser Ebene sind wir voneinander unabhängige AS und Adminteams.
 
-* JJX
-* limlug
-* ling
+Märkischer Kreis
+^^^^^^^^^^^^^^^^
+
++---------+-----------+
+|AS       |65410      |
++---------+-----------+
+
+#### Websites
+
++---------+-------------------------------+ 
+|Karte    | http://map.freifunk-mk.de     |
++---------+-------------------------------+ 
+|Firmware |http://firmware.freifunk-mk.de |
++---------+-------------------------------+ 
+|Webseiten|http://freifunk-mk.de          |
++         +-------------------------------+ 
+|         |http://freifunk-iserlohn.de    |
++         +-------------------------------+ 
+|         |http://freifunk-hemer.de       |
++         +-------------------------------+ 
+|         |http://freifunk-altena.de      |
++         +-------------------------------+ 
+|         |http://freifunk-meinerzhagen.de|
++---------+-------------------------------+
+
+Team
+^^^^
+
++------------+---------------+----------------------------------+------------------------------------------------+
+|Nick        |Name           |Kontakt                           |Was                                             |
++------------+---------------+----------------------------------+------------------------------------------------+
+|domfi       |               |                                  |                                                |
++------------+---------------+----------------------------------+------------------------------------------------+
+|ling        |               |                                  |                                                |
++------------+---------------+----------------------------------+------------------------------------------------+
+|jjx         |               |julian.bog@freifunk-mk.de         |                                                |
++------------+---------------+----------------------------------+------------------------------------------------+
 
 BGP-Server
 ^^^^^^^^^^
