@@ -2,7 +2,7 @@ Communities
 ===========
 
 Organigram
-^^^^^^^^^^
+----------
 
 +---------+-----------+------------------------+-------------+
 |Eulenfunk|Flingern   |                        |             |
@@ -89,22 +89,24 @@ Organigram
 +---------+-----------+------------------------+-------------+
 
 Fichtenfunk
------------
+^^^^^^^^^^^
+
 Übersicht
-^^^^^^^^^
+---------
 
 Fichtenfunk ist Freifunk entlang der Sauerlandlinie A45 oder von Iserlohn bis Siegen. Aufgrund der Routerzahl aber auch der Geographischen Ausdehnung, ist der Fichtenfunk mehrfach unterteilt.
 
 Auf erster Ebene unterteilen wir in die 3 Kreise Märkischer Kreis, Oberbergischer Kreis und Kreis Siegen-Wittgenstein. Auf dieser Ebene sind wir voneinander unabhängige AS und Adminteams.
 
 Märkischer Kreis
-^^^^^^^^^^^^^^^^
+----------------
 
 +---------+-----------+
 |AS       |65410      |
 +---------+-----------+
 
-#### Websites
+Websites
+--------
 
 +---------+-------------------------------+ 
 |Karte    | http://map.freifunk-mk.de     |
@@ -123,7 +125,7 @@ Märkischer Kreis
 +---------+-------------------------------+
 
 Team
-^^^^
+----
 
 +------------+---------------+----------------------------------+------------------------------------------------+
 |Nick        |Name           |Kontakt                           |Was                                             |
@@ -136,7 +138,7 @@ Team
 +------------+---------------+----------------------------------+------------------------------------------------+
 
 BGP-Server
-^^^^^^^^^^
+----------
 
 +-----------------+----+--------------+-------------+------+------------------+------------------+------------------+------------------+
 |Name             |    |IP            |Nat IP       |GRE   |Berlin A          |Berlin B          |Düsseldorf A      |Düsseldorf B      |
@@ -151,7 +153,7 @@ BGP-Server
 +-----------------+----+--------------+-------------+------+------------------+------------------+------------------+------------------+
 
 Subdomänen
-^^^^^^^^^^
+----------
 
 +--------------+-------------+-------------------+----------+----------------+----------+-------------+
 |Server        |IPv4         |IPv6               |br0 IPv4  |br0 IPv6        |DHCP Start|DHCP Ende    |
@@ -164,15 +166,15 @@ Subdomänen
 +--------------+-------------+-------------------+----------+----------------+----------+-------------+
 
 Neanderfunk
------------
+^^^^^^^^^^^
 
 Übersicht
-^^^^^^^^^
+---------
 
 Neanderfunk Freifunk im Neandertal. Dieses ist der Bereich um Mettmann, Velbert, Wülfrath, Heiligenhaus, Erkrath, Monheim, Ratingen und Hilden.
 
 Websites
-^^^^^^^^
+--------
 
 +--------+-----------------------------------------------------------------------------------------------------------------------------------------------------+
 |Karte   | https://karte.neanderfunk.de/                                                                                                                       |
@@ -185,7 +187,7 @@ Websites
 +--------+-----------------------------------------------------------------------------------------------------------------------------------------------------+
 
 Team
-^^^^
+----
 
 +------------+------------------+----------------------------------+------------------------------------------------+
 |Nick        |Name              |Kontakt                           |Was                                             |
@@ -196,10 +198,10 @@ Team
 +------------+------------------+----------------------------------+------------------------------------------------+
 
 Düsseldorf-Flingern
--------------------
+^^^^^^^^^^^^^^^^^^^
 
 Übersicht
-^^^^^^^^^
+---------
 
 Freifunk-Flingern ist ein Düsseldorfer Projekt welches als Ziele sich den bau von möglichst stark vernetzten Meshes gesetzt hat. 
 Es sollen möglichst große Mesh-Wolken gebaut werden, die vergleichsweise wenige (aber kräftige) VPN-Uplinks haben. 
@@ -207,7 +209,7 @@ Bei der Versorgung von Geflüchtetenunterkünften ist die Nutzung von bestehende
 um nicht nur als "Graswurzel-Internetprovider" aufzutreten, sondern echten Freifunk zu den Refugees zu bringen.  
 
 Websites
-^^^^^^^^
+--------
 
 +--------+-------------------------+ 
 |Karte   | http://map.ffdus.de/    |
@@ -220,7 +222,7 @@ Websites
 +--------+-------------------------+
 
 BGP-Server
-^^^^^^^^^^
+----------
 
 +---------+-----------+
 |AS       |65125      |
@@ -251,7 +253,7 @@ Table: broken!
 
 
 Subdomänen
-^^^^^^^^^^
+----------
 
 +--------------+-------------+-------------------------+---------------------+------------+----------------------------------+------------------------+
 |Server        |IPv4         |IPv6 int                 |IPv6 ext             |nextnode v4 | nextnode v6                      |DHCP v4                 |
@@ -262,7 +264,7 @@ Subdomänen
 
 
 Team
-^^^^
+----
 
 +------------+------------------+----------------------------------+------------------------------------------------+
 |Nick        |Name              |Kontakt                           |Was                                             |
@@ -279,16 +281,15 @@ Team
 
 
 gl.Eulenfunk
-------------
-
+^^^^^^^^^^^^
 
 Übersicht
-^^^^^^^^^
+---------
 
 gl.Eulenfunk ist Freifunk im Rheinisch-Bergischen Kreis. Dieses ist der Bereich um Wermelskirchen, Leichlingen, Burscheid, Odenthal, Kürten, Bergisch-Gladbach, Overath und Rösrath. 
 
 Websites
-^^^^^^^^
+--------
 
 +--------+-----------------------------------+ 
 |Karte   | https://map.gl.wupper.ffrl.de/    |
@@ -306,7 +307,7 @@ Websites
 
 
 Team
-^^^^
+----
 
 +------------+------------------+----------------------------------+------------------------------------------------+
 |Nick        |Name              |Kontakt                           |Was                                             |
