@@ -393,14 +393,17 @@ Um die 'Kabelverbindung' zum Rheinland herzustellen werden GRE Tunnel für jeden
         post-up ip -6 addr add 2a03:2260:0:xxx::2/64 dev $IFACE		#Die interne IPv6 vom eigenen Tunnelende
         
 Aktuell gibt es zwei Standorte die je redundant ausgebaut sind:
-============	==============	============
-Standort		Devicename		Endpoint
-============	==============	============
-Berlin a		tun-ffrl-ber-a	185.66.195.0
-Berlin b		tun-ffrl-ber-b	185.66.195.1
-Düsseldorf a	tun-ffrl-dus-a	185.66.193.0
-Düsseldorf b	tun-ffrl-dus-b	185.66.193.1
-============	==============	============
++------------+--------------+------------+
+|Standort    |Devicename    |Endpoint    |
++------------+--------------+------------+
+|Berlin a    |tun-ffrl-ber-a|185.66.195.0|
++------------+--------------+------------+
+|Berlin b    |tun-ffrl-ber-b|185.66.195.1|
++------------+--------------+------------+
+|Düsseldorf a|tun-ffrl-dus-a|185.66.193.0|
++------------+--------------+------------+
+|Düsseldorf b|tun-ffrl-dus-b|185.66.193.1|
++------------+--------------+------------+
 
 Bird einrichten
 ^^^^^^^^^^^^^^^
@@ -494,17 +497,152 @@ Die Bird conf für IPv6
         neighbor 2a03:2260:0:xxx::1 as 201701;									#Backbone IPv6 im GRE Tunnel und AS des FFRL
 	};
 
+Routing
+^^^^^^^
+Forwarding
+..........
+In der /etc/sysctl.conf
 
-Ergänzungen
-^^^^^^^^^^^
-* sysctl ip forwarding in v4 und v6
-* Einrichtung einer zweiten netzwerkkarte auf vmbr1 des proxmox
-* Einrichtung einer Bridge
-* Ferm mit snat für v4
-* ip rules zum Päckchen schubsen
+::
 
-BGP Konzentrator einrichten
----------------------------
+	sudo nano /etc/sysctl.conf
+	
+folgende Zeilen einkommentieren
+
+::
+
+	#net.ipv4.ip_forward=1
+	#net.ipv6.conf.all.forwarding=1
+	
+Einrichtung einer eth1
+......................
+
+in der /etc/network/interfaces legen wir eine eth1 an um den Traffic vom Supernode über eine vmbr des Blechs entgegen zu nehmen
+
+::
+
+	sudo nano /etc/network/interfaces
+	
+::
+
+	auto eth1
+	iface eth1 inet static
+        address 172.16.0.254
+        netmask 255.255.240.0
+        
+Nun muss im Proxmox für die vm eine eth1 hinzugefügt werden, die auf der vmbr1 hängt und virtio verwendet.
+Danach die vm einmal durchbooten.
+
+Ferm
+....
+
+::
+
+	sudo nano /etc/ferm/ferm.conf
+	
+::
+
+	# -*- shell-script -*-
+#
+#  Configuration file for ferm(1).
+#
+
+domain (ip ip6) {
+    table filter {
+        chain INPUT {
+            policy ACCEPT;
+
+            proto gre ACCEPT;
+
+            # connection tracking
+            mod state state INVALID DROP;
+            mod state state (ESTABLISHED RELATED) ACCEPT;
+
+            # allow local packet
+            interface lo ACCEPT;
+
+            # respond to ping
+            proto icmp ACCEPT;
+
+            # allow IPsec
+            proto udp dport 500 ACCEPT;
+            proto (esp) ACCEPT;
+
+            # allow SSH connections
+            proto tcp dport ssh ACCEPT;
+        }
+        chain OUTPUT {
+            policy ACCEPT;
+
+            # connection tracking
+            #mod state state INVALID DROP;
+            mod state state (ESTABLISHED RELATED) ACCEPT;
+        }
+        chain FORWARD {
+            policy ACCEPT;
+
+            # connection tracking
+            mod state state INVALID DROP;
+            mod state state (ESTABLISHED RELATED) ACCEPT;
+        }
+    }
+
+    table mangle {
+        chain PREROUTING {
+            interface tun-ffrl-+ {
+                MARK set-mark 1;
+            }
+        }
+
+        chain POSTROUTING {
+            # mss clamping
+            outerface tun-ffrl-+ proto tcp tcp-flags (SYN RST) SYN TCPMSS clamp-mss-to-pmtu;
+        }
+    }
+
+    table nat {
+        chain POSTROUTING {
+            # nat translation
+            outerface tun-ffrl-+ saddr 172.16.0.0/12 SNAT to 185.66.195.xx;
+            policy ACCEPT;
+            outerface tun-ffrl-+ {
+                MASQUERADE;
+            }
+        }
+    }
+}
+
+Routing
+.......
+
+::
+
+	sudo nano /etc/rc.local
+	
+::
+
+	#!/bin/sh -e
+# rc.local
+
+ip -4 rule add prio 1000 from 172.16.0.0/12 table internet
+ip -6 rule add prio 1000 from 2a03:2260:120::/56 table internet
+
+ip -4 rule add prio 1000 fwmark 0x1 table internet
+ip -6 rule add prio 1000 fwmark 0x1 table internet
+
+FFRL_IFS="tun-ffrl-dus-a tun-ffrl-dus-b tun-ffrl-ber-a tun-ffrl-ber-b"
+for interface in $FFRL_IFS; do
+    ip -4 rule add prio 1001 iif $interface table internet
+    ip -6 rule add prio 1001 iif $interface table internet
+done
+
+ip -4 rule add prio 2000 from 172.16.0.0/12 table unreachable
+ip -4 route add default unreachable table unreachable
+
+exit 0
+
+Supernode einrichten
+--------------------
 
 Nachdem der Server neu gestartet ist und das Webinterface wieder erreichbar ist auf der linken Seite den Server auswählen und dann oben rechts 'Create VM'
 
