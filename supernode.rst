@@ -20,6 +20,14 @@ Die Serverzone teilt sich wiederum in 3 Segmente auf:
 
 .. image:: http://freifunk-mk.de/gfx/Eulenschema.png
 
+Vom Client ins Internet gehen die Daten Folgenden Weg:
+
+.. image:: http://freifunk-mk.de/gfx/Eulenschema2.png
+
+Und das ist der Rückweg:
+
+.. image:: http://freifunk-mk.de/gfx/Eulenschema3.png
+
 Proxmox
 -------
 
@@ -182,11 +190,6 @@ Die vmbr steht erst nach dem Neustart des Blechs zu Verfügung, daher in der Eck
 
 BGP Konzentrator einrichten
 ---------------------------
-.. image:: http://freifunk-mk.de/gfx/Eulenschema2.png
-
-.. image:: http://freifunk-mk.de/gfx/Eulenschema3.png
-
-
 Nachdem der Server neu gestartet ist und das Webinterface wieder erreichbar ist auf der linken Seite den Server auswählen und dann oben rechts 'Create VM'
 
 Im Reiter 'General' eine Freie ID und einen Namen festlegen.
