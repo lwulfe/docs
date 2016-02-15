@@ -5,6 +5,19 @@ Anleitung zur Einrichtung eines Freifunk Supernodes auf Basis von Proxmox 4.0 un
 
 Überblick
 ---------
+
+Das Setup besteht im wesentlichen aus 3 Zonen:
+
+* Die Freifunk Zone vor Ort (rosa) damit haben wir nicht viel zu tun
+* Die Serverzone (grün) um die geht es in dieser Anleitung
+* Das Backbone (orange), das macht der FFRL
+
+Die Serverzone teilt sich wiederum in 3 Segmente auf:
+
+* Der Hypervisor Proxmox, dieser stellt alle Funktionen für den Betrieb von virtuellen Maschinen bereit
+* Der Konzentrator, dieser virtuelle Server stellt die Verbindung zu FFRL Backbone her, und übernimmt NAT und BGP
+* Der Supernode stellt die Fastd VPN Verbindungen für die Router bereit, kümmert sich um Batman und DHCP
+
 .. image:: http://freifunk-mk.de/gfx/Eulenschema.png
 
 Proxmox
