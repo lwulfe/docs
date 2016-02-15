@@ -3,6 +3,10 @@ Supernode
 
 Anleitung zur Einrichtung eines Freifunk Supernodes auf Basis von Proxmox 4.0 und Ubuntu Server 14.04.3 LTS
 
+Überblick
+---------
+.. image:: http://freifunk-mk.de/gfx/Eulenschema.png
+
 Proxmox
 -------
 
@@ -165,6 +169,10 @@ Die vmbr steht erst nach dem Neustart des Blechs zu Verfügung, daher in der Eck
 
 BGP Konzentrator einrichten
 ---------------------------
+.. image:: http://freifunk-mk.de/gfx/Eulenschema2.png
+
+.. image:: http://freifunk-mk.de/gfx/Eulenschema3.png
+
 
 Nachdem der Server neu gestartet ist und das Webinterface wieder erreichbar ist auf der linken Seite den Server auswählen und dann oben rechts 'Create VM'
 
