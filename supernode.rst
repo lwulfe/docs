@@ -20,16 +20,30 @@ Die Serverzone teilt sich wiederum in 3 Segmente auf:
 
 .. image:: http://freifunk-mk.de/gfx/Eulenschema.png
 
-Vom Client ins Internet gehen die Daten Folgenden Weg:
+Vom Client ins Internet gehen die Daten Folgenden Weg (IPv4):
 
 .. image:: http://freifunk-mk.de/gfx/Eulenschema2.png
 
-Und das ist der Rückweg:
+Und das ist der Rückweg (IPv4):
 
 .. image:: http://freifunk-mk.de/gfx/Eulenschema3.png
 
 Proxmox
 -------
+
+Einleitung
+^^^^^^^^^^
+
+Proxmox stellt alle Funktionen für den Betrieb von virtuellen Maschinen bereit und bietet per Webinterface eine Zentrale Möglichkeit nue VMs anzulegen und bestehende zu verwalten.
+
+Die Einrichtung des Proxmox beschränkt sich auf folgende Punkte:
+
+* Installation: Hoster wie OVH/Soyoustart nehmen euch die Arbeit ab
+* Einrichtung des SSH Zugriffs per public Key
+* Absicherung des SSH Servers
+* Absicherung des Webinterface per two-factor (Oath)
+* Einrichtung des Monitorings per Check MK
+* Bereitstellung der iso Datei für Ubuntu Server
 
 Installation
 ^^^^^^^^^^^^
@@ -57,7 +71,7 @@ Nun den SSH Public Key auf dem Server hinterlegen
 	cd .ssh
 	nano authorized_keys
 
-In die noch leere Datei den Key eintragen und den Editor wieder verlassen.
+In die noch leere Datei den Key eintragen und den Editor wieder verlassen (strg+x).
 
 Als nächstes die SSH Verbindung beenden
 
@@ -82,7 +96,7 @@ Nun den Password login auf dem Server deaktivieren, dazu die sshd_conf editieren
 
 ::
 
-	nano /etc/ssh/sshd_conf
+	nano /etc/ssh/sshd_config
 
 Die Zeile
 
@@ -170,6 +184,11 @@ Iso Files zur installation können zwar über das Webinterface hochgeladen werde
 	cd /vz/template/iso
 	wget http://releases.ubuntu.com/14.04.3/ubuntu-14.04.3-server-amd64.iso
 
+
+OATH Two Factor
+^^^^^^^^^^^^^^^
+
+--Hier muss noch was hin--
 
 Ab jetzt geht es im Browser weiter.
 
