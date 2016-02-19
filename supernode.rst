@@ -112,6 +112,13 @@ Die Zeile
 
 Achtung, auch wenn yes auskommentiert ist besteht die Möglichkeit sich per Password zu verbinden, erst wenn 'no' gesetzt ist und nicht (mehr) auskommentiert ist, ist der Zugriff nur noch per Key möglich.
 
+Den SSH-Server nur auf dem richtigen Interface lauschen lassen, damit SSH nicht "von innen" erreichbar ist:
+
+::
+
+	ListenAddress <meine-öffentliche-ip>
+
+
 Den Editor wieder verlassen und den SSH Server neu starten um die Einstellungen zu übernehmen
 
 
@@ -126,12 +133,13 @@ Um es den Script-Kiddies und Bots etwas schwerer zu machen, sollte der Port 22 a
 
 ::
 
-        Port 22
+	Port 22
         
 ändern z.B. in
 
 ::
-         Port 62954
+
+	Port 62954
 
 WICHTIG: Diesen Port muss man sich dann merken, da man ihn später beim Aufruf von ssh angeben muss.
 
