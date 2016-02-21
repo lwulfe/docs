@@ -110,7 +110,7 @@ Die Zeile
 
 	PasswordAuthentication no
 
-Achtung, auch wenn yes auskommentiert ist besteht die Möglichkeit sich per Password zu verbinden, erst wenn 'no' gesetzt ist und nicht (mehr) auskommentiert ist, ist der Zugriff nur noch per Key möglich.
+Achtung, auch wenn yes auskommentiert ist, besteht die Möglichkeit sich per Password zu verbinden, erst wenn 'no' gesetzt ist und nicht (mehr) auskommentiert ist, ist der Zugriff nur noch per Key möglich.
 
 Den SSH-Server nur auf dem richtigen Interface lauschen lassen, damit SSH nicht "von innen" erreichbar ist:
 
@@ -157,11 +157,19 @@ Z.B.:
 Optional kein direkten Root-Login erlauben
 ..........................................
 
-_ToDo_: Als zusätzliche Sicherheitsstufe ist es möglich, (direkte) root-Logins komplett untersagen. 
-Dann muss der Login über einen zusätzlicn anzulegenden Benutzer (sshkey siehe oben) erfolgen. 
-Zudem hinreichend sicheres Passwort setzen und den User in die sudoers-Gruppe aufnehmen.
+Als zusätzliche Sicherheitsstufe ist es empfehlenswert, (direkte) root-Logins per ssh komplett untersagen. 
+Dann muss der Login über einen zusätzlich anzulegenden Benutzer (sshkey siehe oben) erfolgen. 
+Zudem hinreichend sicheres Passwort setzen und den User in die sudoers-Gruppe aufnehmen. 
 
+::
 
+	PermitRootLogin yes
+        
+ändern in
+
+::
+
+	PermitRootLogin no
 
 Monitoring
 ^^^^^^^^^^
@@ -335,6 +343,8 @@ Nun den SSH Public Key auf dem Server hinterlegen
 	nano authorized_keys
 
 In die noch leere Datei den Key eintragen und den Editor wieder verlassen.
+
+(Per default liegt hier eventuell schon ein Schlüssel drin. Dieser gehört dem Wartungssystem des jeweiligen Hosters. Über den Sinn und die Berechtigung dann man unterschiedlilche Meinungen haben. Ob man diesen drin lässt muss individuell entschieden werden.)
 
 Als nächstes die SSH Verbindung beenden
 
