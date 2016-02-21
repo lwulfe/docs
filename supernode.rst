@@ -174,7 +174,10 @@ Zudem hinreichend sicheres Passwort setzen und den User in die sudoers-Gruppe au
 Monitoring
 ^^^^^^^^^^
 
-Den Check_MK Agent steht in der Check_MK Weboberfläche als .deb Paket bereit, dieses kann herunter geladen und dann per SCP auf den Server kopiert werden.
+Den Check_MK Agent steht in der Check_MK Weboberfläche als .deb Paket bereit, dieses kann herunter geladen und dann per SCP auf den Server kopiert werden. 
+
+_TODO: Wo ist das zu finden? Kann man ewig nach suchen!
+
 Auf dem lokalen Rechner nicht in der SSH Session
 
 ::
