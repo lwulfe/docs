@@ -18,9 +18,13 @@ Eulenfunk
 
 Eulenfunk ist ein Projektname für eine Meta-Community innerhalb des Freifunks im Rheinland. 
 Es handelt sich um weitgehend unabhängige Freifunk-Communities, die organisatorisch Resourcen teilen, um Redundanz in Administration und Infrastruktur zu erreichen.
+
 ``^_^``
+
 ``{o,o}``
+
 ``|)__)``
+
 ``-m-m-``
 
 .. toctree::
