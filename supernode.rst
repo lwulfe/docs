@@ -179,6 +179,7 @@ Nun Betriebsystemupdates einspielen und ggf. erfolgende Rückfragen mit einem "J
 
 
 :: 
+
         sudo apt-get updates
         sudo apt-get upgrade
         sudo apt-get dist-upgrade
@@ -218,6 +219,7 @@ Per SSH auf dem Server
 
 	apt-get install gdebi xinetd
 	gdebi checkmkagent.deb
+
 
 Der Rechner hält ab nun Daten zum Abruf bereit. 
 _ToDo: Neuen Rechner im CheckMK eintragen in richtige Gruppe & Monitoring scharf schalten.
