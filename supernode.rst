@@ -112,13 +112,6 @@ Die Zeile
 
 Achtung, auch wenn yes auskommentiert ist, besteht die Möglichkeit sich per Password zu verbinden, erst wenn 'no' gesetzt ist und nicht (mehr) auskommentiert ist, ist der Zugriff nur noch per Key möglich.
 
-Den SSH-Server nur auf dem richtigen Interface lauschen lassen, damit SSH nicht "von innen" erreichbar ist:
-
-::
-
-	ListenAddress <meine-öffentliche-ip>
-
-
 Den Editor wieder verlassen und den SSH Server neu starten um die Einstellungen zu übernehmen
 
 
@@ -126,8 +119,33 @@ Den Editor wieder verlassen und den SSH Server neu starten um die Einstellungen 
 
 	/etc/init.d/ssh restart
 
-Optional den SSH-Port ändern
-............................
+Kein direkten Root-Login erlauben
+.................................
+
+Als zusätzliche Sicherheitsstufe ist es empfehlenswert, (direkte) root-Logins per ssh komplett untersagen. 
+Dann muss der Login über einen zusätzlich anzulegenden Benutzer (sshkey siehe oben) erfolgen. 
+Zudem hinreichend sicheres Passwort setzen und den User in die sudoers-Gruppe aufnehmen. 
+
+::
+
+	PermitRootLogin yes
+        
+ändern in
+
+::
+
+	PermitRootLogin no
+
+Abschließend: 
+
+::
+
+	/etc/init.d/ssh restart
+
+
+
+Sinnvoll: Den SSH-Port ändern
+.............................
 
 Um es den Script-Kiddies und Bots etwas schwerer zu machen, sollte der Port 22 auf einen hohen Port (mindestens über 1024) verändert werden. Dazu die Zeile
 
@@ -153,46 +171,56 @@ Z.B.:
 
         ssh -p 62954 root@111.222.333.444
 
+
+Updates einspielen
+^^^^^^^^^^^^^^^^^^
+
+Nun Betriebsystemupdates einspielen und ggf. erfolgende Rückfragen mit einem "J" oder "Y" abnicken, das "autoremove wird nicht viel tun, aber der Vollständigkeit halber sollte man es sich gleich angewöhnen.
+
+
+:: 
+        sudo apt-get updates
+        sudo apt-get upgrade
+        sudo apt-get dist-upgrade
+        sudo apt-get autoremove
         
-Optional kein direkten Root-Login erlauben
-..........................................
 
-Als zusätzliche Sicherheitsstufe ist es empfehlenswert, (direkte) root-Logins per ssh komplett untersagen. 
-Dann muss der Login über einen zusätzlich anzulegenden Benutzer (sshkey siehe oben) erfolgen. 
-Zudem hinreichend sicheres Passwort setzen und den User in die sudoers-Gruppe aufnehmen. 
+Eine Fehlermeldung im Bereich "Proxmox-Enterprise" kann man entweder ignorieren. Das gibt es nur wenn man ein Support-Abo abgeschlossen hat. Wenn Ihr die Arbeit des Proxmox-Teams unterstützen möchtet:
 
-::
+https://www.proxmox.com/de/proxmox-ve/preise
 
-	PermitRootLogin yes
-        
-ändern in
-
-::
-
-	PermitRootLogin no
 
 Monitoring
 ^^^^^^^^^^
 
-Den Check_MK Agent steht in der Check_MK Weboberfläche als .deb Paket bereit, dieses kann herunter geladen und dann per SCP auf den Server kopiert werden. 
+Den Check_MK Agent steht in der Weboberfläche des Check_MK als .deb Paket bereit: 
 
-_TODO: Wo ist das zu finden? Kann man ewig nach suchen!
-
-Auf dem lokalen Rechner nicht in der SSH Session
+In die CheckMK-Instanz per Webbrowser einloggen. Dann suchen: 
 
 ::
 
-	scp /pfadzurdatei root@111.222.333.444:~
+        -> WATO Configuration (Menü/Box)
+        -> Monitoring Agents
+        -> Packet Agents
+        -> check-mk-agent_1.2.6p15-1_all.deb _(Beispiel)_
 
+Den Download-Link in die Zwischenablage kopieren. 
+Im ssh-terminal nun
 
-Der Agent liegt jetzt im Benutzerordner des Servers.
-Um das .deb Paket zu installieren wird gdebi empfohlen, ausserdem benötigt der Agent xinetd zum ausliefern der monitoring Daten.
+::
+
+        wget--no-check-certificate https://monitoring.freifunk-mk.de/heimathoster/check_mk/agents/check-mk-agent_1.2.6p15-1_all.deb
+
+Um das .deb Paket zu installieren wird gdebi empfohlen, ausserdem benötigt der Agent xinetd zum ausliefern der monitoring Daten. Die Installation von gdebi kann durchaus einige Dutzend Pakete holen. Das ist leider normal. 
 Per SSH auf dem Server
 
 ::
 
 	apt-get install gdebi xinetd
 	gdebi checkmkagent.deb
+
+Der Rechner hält ab nun Daten zum Abruf bereit. 
+_ToDo: Neuen Rechner im CheckMK eintragen in richtige Gruppe & Monitoring scharf schalten.
 
 Images hochladen
 ^^^^^^^^^^^^^^^^
