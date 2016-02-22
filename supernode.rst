@@ -206,23 +206,25 @@ In die CheckMK-Instanz per Webbrowser einloggen. Dann suchen:
         -> check-mk-agent_1.2.6p15-1_all.deb _(Beispiel)_
 
 Den Download-Link in die Zwischenablage kopieren. 
-Im ssh-terminal nun
+Im ssh-terminal nun eingeben: (die Download-URL ist individuell und der Name des .deb-Paketes ändert sich ggf.)
 
 ::
 
         wget --no-check-certificate https://monitoring.freifunk-mk.de/heimathoster/check_mk/agents/check-mk-agent_1.2.6p15-1_all.deb
 
 Um das .deb Paket zu installieren wird gdebi empfohlen, ausserdem benötigt der Agent xinetd zum ausliefern der monitoring Daten. Die Installation von gdebi kann durchaus einige Dutzend Pakete holen. Das ist leider normal. 
-Per SSH auf dem Server
+Per SSH auf dem Server. (Auch hier: Name des .deb-Files ggf. anpassen)
 
 ::
 
 	apt-get install gdebi xinetd
-	gdebi checkmkagent.deb
+	gdebi heck-mk-agent_1.2.6p15-1_all.deb
 
 
 Der Rechner hält ab nun Daten zum Abruf bereit. 
+
 _ToDo: Neuen Rechner im CheckMK eintragen in richtige Gruppe & Monitoring scharf schalten.
+
 
 Images hochladen
 ^^^^^^^^^^^^^^^^
