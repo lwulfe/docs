@@ -254,11 +254,11 @@ Ab jetzt geht die Konfiguration über das Proxmox Webinterface im Browser:
 
 Die Anmeldung erfolgt mit Benutzername und Kennwort und gegebenenfalls mit OATH Pin.
 
+.. image:: http://freifunk-mk.de/gfx/proxmox-1.png
+
 Nachdem links in der Seitenleiste das Blech ausgewählt wurde rechts im Reiter Network zusätzlich zur vorhandenen vmbr0 über die das Internet rein kommt noch mindestens eine vmbr1 anlegen, über die die Supernodes mit dem Backbone Server kommunizieren.
 
 Bei OVH/Soyoustart kann es sein, dass die vmbr schon vorhanden ist, dann müsst ihr nichts tun
-
-.. image:: http://freifunk-mk.de/gfx/proxmox-1.png
 
 .. image:: http://freifunk-mk.de/gfx/proxmox-2.png
 
@@ -274,47 +274,100 @@ BGP Konzentrator einrichten
 ---------------------------
 Nachdem der Server neu gestartet ist und das Webinterface wieder erreichbar ist auf der linken Seite den Server auswählen und dann oben rechts 'Create VM'
 
+.. image:: http://freifunk-mk.de/gfx/proxmox-6.png
+
 Im Reiter 'General' eine Freie ID und einen Namen festlegen.
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-7.png
 
 Im Reiter 'OS' 'Linux 4.x/3.x/2.6 Kernel auswählen.
 
+.. image:: http://freifunk-mk.de/gfx/proxmox-8.png
+
 Im Reiter 'CD/DVD' das ISO Image auswählen.
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-9.png
 
 Im Reiter 'Hard Disk' als 'Bus' 'VirtIO' einstellen, die Festplattengröße auf 8GB begrenzen und als Format 'qcow2' wählen.
 
+.. image:: http://freifunk-mk.de/gfx/proxmox-10.png
+
 Im Reiter 'CPU' zwei Prozessorkerne zuweisen.
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-11.png
 
 Im Reiter 'Memory' unter 'Automatically allocate memory within this range' 256 -1024MB festlegen.
 
+.. image:: http://freifunk-mk.de/gfx/proxmox-12.png
+
 Im Reiter 'Network' als Netzwerkkarte 'VirtIO' auswählen und die MAC Adresse der für diesen Vserver zu verwendenden öffentlichen IPv4 Adresse eintragen.
 
-Bestätigen und Anlegen, anschließend starten. 
+.. image:: http://freifunk-mk.de/gfx/proxmox-13.png
+
+Bestätigen und Anlegen, auswählen und anschließend starten. 
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-14.png
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-15.png
 
 Fehlermeldungen während der Startphase werden unten im Log-Fenster angezeigt, erscheinen immer "oben", jedoch mit einigen Sekunden verzögerung. Details lassen sich ausklappen. Auf einigen Systemen ist es notwendig, die Harddisk auf "Writeback(insecure)" zu schalten, um das System zu starten zu können.
 
-Hinweis: Wenn das System später läuft, nicht vergesse, den Starttyp "at boot time" zu stellen.
+Hinweis: Wenn das System später läuft, nicht vergessen, den Starttyp "at boot time" zu stellen.
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-16.png
 
 Ubuntu Server Installieren
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Die VM Links auswählen und oben rechts starten und die Konsole öffnen.
+Die VM Links auswählen und oben rechts starten und die Konsole öffnen
 
+.. image:: http://freifunk-mk.de/gfx/proxmox-17.png
 
 Deutsch als Sprache auswählen und nun Ubuntu Server Installieren
 
+.. image:: http://freifunk-mk.de/gfx/proxmox-18.png
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-19.png
+
 Als Installationssprache jetzt nochmal Deutsch auswählen, die auswahl trotz unvollständiger Unterstützung bestätigen und als nächstes das Tastaturlayout auswählen.
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-20.png
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-21.png
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-22.png
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-23.png
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-24.png
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-25.png
 
 Sobald der Server versucht das Netzwerk automatisch zu konfigurieren, dies abbrechen und die Manuelle Netzwerkkonfiguration auswählen.
 
+.. image:: http://freifunk-mk.de/gfx/proxmox-26.png
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-27.png
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-28.png
+
 Die IP zur mac ist beispielsweise die 555.666.777.888
 
+.. image:: http://freifunk-mk.de/gfx/proxmox-29.png
+
 Die subnetzmaske von 255.255.255.0 bleibt in der Regel so
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-30.png
 
 Die Gateway Adresse sollte man beim Rechenzentrum bekannt sein.
 
 Bei einem großen Französichen RZ ist das IPv4 Gateway immer auf der 254, also 555.666.777.254
 
+.. image:: http://freifunk-mk.de/gfx/proxmox-31.png
+
 Als DNS geht z.B. der 8.8.8.8 von google.
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-32.png
 
 Der Rechnername ist frei wählbar
 
