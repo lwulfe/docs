@@ -74,6 +74,8 @@ Nun den SSH Public Key auf dem Server hinterlegen
 
 In die noch leere Datei den Key eintragen und den Editor wieder verlassen (strg+x).
 
+(Per default liegt hier eventuell schon ein Schlüssel drin. Dieser gehört dem Wartungssystem des jeweiligen Hosters. Über den Sinn und die Berechtigung dann man unterschiedlilche Meinungen haben. Ob man diesen drin lässt muss individuell entschieden werden.)
+
 Als nächstes die SSH Verbindung beenden
 
 ::
@@ -454,17 +456,27 @@ Warten...
 
 Proxy leer lassen
 
+.. image:: http://freifunk-mk.de/gfx/proxmox-54.png
+
 Warten...
 
 Automatische Sicherheitsaktualisierungen auswählen
 
+.. image:: http://freifunk-mk.de/gfx/proxmox-55.png
+
 Openssh server auswählen (Leertaste benutzen) und weiter
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-56.png
 
 Warten...
 
 Die Installation des GRUB Bootloader bestätigen
 
+.. image:: http://freifunk-mk.de/gfx/proxmox-57.png
+
 Weiter
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-58.png
 
 SSH
 ^^^
@@ -486,8 +498,6 @@ Nun den SSH Public Key auf dem Server hinterlegen
 	nano authorized_keys
 
 In die noch leere Datei den Key eintragen und den Editor wieder verlassen.
-
-(Per default liegt hier eventuell schon ein Schlüssel drin. Dieser gehört dem Wartungssystem des jeweiligen Hosters. Über den Sinn und die Berechtigung dann man unterschiedlilche Meinungen haben. Ob man diesen drin lässt muss individuell entschieden werden.)
 
 Als nächstes die SSH Verbindung beenden
 
@@ -513,7 +523,7 @@ Nun den Password login auf dem Server deaktivieren, dazu die sshd_conf editieren
 
 ::
 
-	nano /etc/ssh/sshd_conf
+	sudo nano /etc/ssh/sshd_conf
 
 Die Zeile
 
@@ -533,7 +543,7 @@ Den Editor wieder verlassen und den SSH Server neu starten um die Einstellungen 
 
 ::
 
-	/etc/init.d/ssh restart
+	sudo /etc/init.d/ssh restart
 
 
 Systemaktualisierung
@@ -562,6 +572,8 @@ Pakete installieren
 * gdebi ermöglicht uns die Installation des Check_mk Agents
 * xinetd übernimmt die Übertragung der Monitoring Daten
 
+-> Ja Ferm soll beim Systemstart geladen werden.
+
 Nat IPv4 einrichten
 ^^^^^^^^^^^^^^^^^^^
 
@@ -575,7 +587,7 @@ Um die IP Adresse über die die Daten zum Freifunk Rheinland gehen sollen einzur
 
 	auto tun-ffrl-uplink
 	iface tun-ffrl-uplink inet static
-        address 185.66.195.xx
+        address 185.66.19x.xx
         netmask 255.255.255.255
         pre-up ip link add $IFACE type dummy
         post-down ip link del $IFACE
@@ -584,19 +596,34 @@ Um die 'Kabelverbindung' zum Rheinland herzustellen werden GRE Tunnel für jeden
 
 ::
 
-	auto  tun-ffrl-ber-a #Startet das Interface automatisch (Namen anpassen)
-	iface tun-ffrl-ber-a inet tunnel #Legt das Interface an (Namen anpassen)
-        mode            gre											#modus GRE Tunnel
-        netmask         255.255.255.254								#Die netzmaske bleibt immer gleich
-        address         100.64.2.xxx								#Die Interne IP vom eigenen Tunnelende
-        dstaddr         100.64.2.xxx								#Die interne IP vom Backbone Tunnelende
-        endpoint        185.66.195.0								#Die öffentliche IPv4 vom Backbone Standort
-        local          	xx.xxx.xx.xx 								#Die eigene öffentliche IPv4
-        ttl             255											#Die TTL bleibt immer gleich
-        mtu             1400										#Die Mtu bleibt auch gleich
-        post-up ip -6 addr add 2a03:2260:0:xxx::2/64 dev $IFACE		#Die interne IPv6 vom eigenen Tunnelende
+	auto  tun-ffrl-ber-a
+	iface tun-ffrl-ber-a inet tunnel
+        mode            gre
+        netmask         255.255.255.254
+        address         100.64.2.xxx
+        dstaddr         100.64.2.xxx
+        endpoint        185.66.195.0
+        local          	xx.xxx.xx.xx
+        ttl             255
+        mtu             1400
+        post-up ip -6 addr add 2a03:2260:0:xxx::2/64 dev $IFACE
         
+        
+* Startet das Interface automatisch (Namen anpassen)
+* Legt das Interface an (Namen anpassen)
+* modus GRE Tunnel
+* Die netzmaske bleibt immer gleich
+* Die Interne IP vom eigenen Tunnelende
+* Die interne IP vom Backbone Tunnelende
+* Die öffentliche IPv4 vom Backbone Standort
+* Die eigene öffentliche IPv4
+* Die TTL bleibt immer gleich
+* Die Mtu bleibt auch gleich
+* Die interne IPv6 vom eigenen Tunnelende
+
+
 Aktuell gibt es zwei Standorte die je redundant ausgebaut sind:
+
 +------------+--------------+------------+
 |Standort    |Devicename    |Endpoint    |
 +------------+--------------+------------+
