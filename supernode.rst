@@ -29,7 +29,6 @@ Und das ist der Rückweg (IPv4):
 .. image:: http://freifunk-mk.de/gfx/Eulenschema3.png
 
 Proxmox
--------
 
 Einleitung
 ^^^^^^^^^^
@@ -50,7 +49,9 @@ Installation
 
 Proxmox kommt entweder per Klick als Template vom Provider auf den Server oder muss von Hand installiert werden.
 
-Achtung: Hostname nachträglich ändern nur streng nach Promox-Howto (andernfalls: WebUI startet nach Hostreboot nimmer.)
+Bei manueller Installation Hilft die Proxmox Doku: https://pve.proxmox.com/wiki/Installation
+
+Achtung: Hostname nachträglich ändern nur streng nach Promox-Howto sonst funktioniert die Weboberfläche nicht mehr.
 
 SSH
 ^^^
@@ -218,7 +219,7 @@ Per SSH auf dem Server. (Auch hier: Name des .deb-Files ggf. anpassen)
 ::
 
 	apt-get install gdebi xinetd
-	gdebi heck-mk-agent_1.2.6p15-1_all.deb
+	gdebi check-mk-agent_1.2.6p15-1_all.deb
 
 
 Der Rechner hält ab nun Daten zum Abruf bereit. 
@@ -239,24 +240,35 @@ Iso Files zur installation können zwar über das Webinterface hochgeladen werde
 OATH Two Factor
 ^^^^^^^^^^^^^^^
 
---Hier muss noch was hin--
+Der Zugang zum Proxmox ist absolut sicherheitskritisch, wer Zugriff auf den Hypervisor hat hat Zugriff auf alle Maschinen auf dem Blech. Ihr solltet daher zusätzlich den Login des Webinterface per OATH Two Factor Authentifizierung absichern.
 
-Ab jetzt geht es im Browser weiter.
+-> https://pve.proxmox.com/wiki/Two-Factor_Authentication
 
 Netzwerk einrichten
 ^^^^^^^^^^^^^^^^^^^
-
-Das Webinterface ist unter folgender Adresse erreichbar
+Ab jetzt geht die Konfiguration über das Proxmox Webinterface im Browser:
 
 ::
 
 	https://111.222.333.444:8006
 
-Die Anmeldung erfolgt mit Benutzername und Kennwort.
+Die Anmeldung erfolgt mit Benutzername und Kennwort und gegebenenfalls mit OATH Pin.
 
-Nachdem links in der Seitenleiste das Blech asugewählt wurde rechts im Reiter Network zusätzlich zur vorhandenen vmbr0 über die das Internet rein kommt noch iene vmbr1 anlegen, über die die Supernodes mit dem Backbone Server kommunizieren.
+Nachdem links in der Seitenleiste das Blech ausgewählt wurde rechts im Reiter Network zusätzlich zur vorhandenen vmbr0 über die das Internet rein kommt noch mindestens eine vmbr1 anlegen, über die die Supernodes mit dem Backbone Server kommunizieren.
 
-Die vmbr steht erst nach dem Neustart des Blechs zu Verfügung, daher in der Ecke oben rechts reboot auswählen.
+Bei OVH/Soyoustart kann es sein, dass die vmbr schon vorhanden ist, dann müsst ihr nichts tun
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-1.png
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-2.png
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-3.png
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-4.png
+
+Die vmbr steht erst nach dem Neustart des Blechs zu Verfügung, daher in der Ecke oben rechts restart auswählen.
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-5.png
 
 BGP Konzentrator einrichten
 ---------------------------
