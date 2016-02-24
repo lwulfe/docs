@@ -371,41 +371,84 @@ Als DNS geht z.B. der 8.8.8.8 von google.
 
 Der Rechnername ist frei wählbar
 
-Ebenso der Benutzername.
+.. image:: http://freifunk-mk.de/gfx/proxmox-33.png
+
+Der Domainname ist hier einzutragen
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-34.png
+
+Und der Benutzername.
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-35.png
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-36.png
 
 Das Kennwort sollte sicher sein und nicht bereits für einen anderen Zweck in Verwendung.
 
+.. image:: http://freifunk-mk.de/gfx/proxmox-37.png
+
 Da auf dem Server keine Persönlichen Dateien gespeichert werden sollen ist es nicht notwendig den Persönlichen Ordner zu verschlüsseln.
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-38.png
 
 Zeitzone Prüfen und bestätigen.
 
 Festpaltte manuell formatieren
 
+.. image:: http://freifunk-mk.de/gfx/proxmox-39.png
+
 Freien speicherplatz auswählen und enter
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-40.png
 
 Partitionstabelle erstellen
 
+.. image:: http://freifunk-mk.de/gfx/proxmox-41.png
+
 Freien speicherplatz auswählen und enter
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-42.png
+.. image:: http://freifunk-mk.de/gfx/proxmox-43.png
 
 Partitionsgröße 7 GB Primär am Anfang
 
+.. image:: http://freifunk-mk.de/gfx/proxmox-44.png
+.. image:: http://freifunk-mk.de/gfx/proxmox-45.png
+.. image:: http://freifunk-mk.de/gfx/proxmox-46.png
+
 Bootflag auf 'ein' setzen und 'Anlegen beenden'
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-47.png
 
 Freien Speicherplatz auswählen und enter
 
+.. image:: http://freifunk-mk.de/gfx/proxmox-48.png
+
 Einen neue Partition erstellen
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-49.png
 
 Größe bestätigen
 
+.. image:: http://freifunk-mk.de/gfx/proxmox-50.png
+
 Primär
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-45.png
 
 Benutzen als 'Auslagerungsspeicher (SWAP)'
 
 'Anlegen beenden'
 
+.. image:: http://freifunk-mk.de/gfx/proxmox-51.png
+
 'Partitionierung beenden'
 
+.. image:: http://freifunk-mk.de/gfx/proxmox-52.png
+
 Ja schreiben, noch sind ja keine Daten vorhanden, die überschrieben werden könnten.
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-53.png
 
 Warten...
 
