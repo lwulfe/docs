@@ -174,6 +174,13 @@ Z.B.:
 
         ssh -p 62954 root@111.222.333.444
 
+Kennwort ändern
+^^^^^^^^^^^^^^^
+Wenn Proxmox durch den Hoster aufgesetzt wurde und das Kennwort per Mail kam, sollte es geändert werden mit passwd
+
+::
+
+	passwd
 
 Updates einspielen
 ^^^^^^^^^^^^^^^^^^
@@ -276,6 +283,8 @@ BGP Konzentrator einrichten
 ---------------------------
 
 Der BGP Konzentrator ist der Backboneseitige unserer zwei Freifunk Server, er übernimmt Routing, NAT, Connection tracking, GRE Tunnel und BGP Sessions.
+
+Für den Vserver benötigen wir eine zusätzliche öffentliche IPv4 Adresse, diese könnt ihr beim Rechenzentrum kaufen, nennt sich z.B. Failover IP. Für diese IP Adresse muss im Kundeninterface eine MAC Adresse erstellt werden, die dann im Proxmox auf der Netzwerkkarte des Vservers konfiguriert wird.
 
 Nachdem der Server neu gestartet ist und das Webinterface wieder erreichbar ist auf der linken Seite den Server auswählen und dann oben rechts 'Create VM'
 
@@ -398,7 +407,7 @@ Da auf dem Server keine Persönlichen Dateien gespeichert werden sollen ist es n
 
 Zeitzone Prüfen und bestätigen.
 
-Festpaltte manuell formatieren
+Festplatte manuell formatieren
 
 .. image:: http://freifunk-mk.de/gfx/proxmox-39.png
 
@@ -548,6 +557,18 @@ Den Editor wieder verlassen und den SSH Server neu starten um die Einstellungen 
 
 	sudo /etc/init.d/ssh restart
 
+Benutzer hinzufügen
+^^^^^^^^^^^^^^^^^^^
+
+Um weiteren Admins Zugriff auf den Server zu ermöglichen sollten dringend weitere Benutzer angelegt werden
+
+::
+
+	sudo adduser BENUTZERNAME --ingroup sudo
+
+Es muss ein Kennwort angegeben werden, dieses kann der Benutzer später per passwd nach belieben ändern, die weiteren abfragen nach Name, Mail usw. müssen nicht ausgefüllt werden und könnnen einfach mit Enter bestätigt werden.
+
+Für den neuen Benutzer muss ebenfalls der ssh Schlüssel des jeweiligen Nutzers im Nutzerordner hinterlegt werden.
 
 Systemaktualisierung
 ^^^^^^^^^^^^^^^^^^^^
@@ -1024,7 +1045,7 @@ sollte so ein Ergebnis ausgeben
 				rx      |     tx      |    total    |   avg. rate
 		 ------------------------+-------------+-------------+---------------
 		 yesterday      7.46 GiB |    1.64 GiB |    9.10 GiB |  883.93 kbit/s
-			 today      8.19 MiB |   11.23 MiB |   19.43 MiB |   14.87 kbit/s
+		 today      8.19 MiB |   11.23 MiB |   19.43 MiB |   14.87 kbit/s
 		 ------------------------+-------------+-------------+---------------
 		 estimated        64 MiB |      88 MiB |     152 MiB |
 
@@ -1034,7 +1055,7 @@ sollte so ein Ergebnis ausgeben
 Supernode einrichten
 --------------------
 
-Der SUpernode ist der Freifunkseitige unserer zwei Server. Er übernimmt die Adressvergabe per DHCP / Radvd, den Aufbau der Fastd Tunnel zu den Routern und Batman.
+Der Supernode ist der Freifunkseitige unserer zwei Server. Er übernimmt die Adressvergabe per DHCP / Radvd, den Aufbau der Fastd Tunnel zu den Routern und Batman.
 
 Der Supernode wird im Proxmox Webinterface angelegt indem man auf der linken Seite den Server auswählt und dann oben rechts auf 'Create VM' klickt.
 
@@ -1451,3 +1472,17 @@ Das Format der Secret Key Zeile anpassen und die Public Key Zeile auskommentiere
 	#public yyy
 
 Und den Editor wieder verlassen.
+
+
+Nützliches
+^^^^^^^^^^
+
+Benutzerkennwort zurücksetzen
+.............................
+
+Hat man sein Kennwort vergessen, kann man einen anderen Nutzer mit Źugriff auf den Server bitten ein neues Kennwort zu setzen
+
+::
+
+	sudo passwd Meinbenutzername
+
