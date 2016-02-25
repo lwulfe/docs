@@ -577,6 +577,8 @@ Pakete installieren
 Nat IPv4 einrichten
 ^^^^^^^^^^^^^^^^^^^
 
+* Mit dieser öffentlichen IPv4 werden alle Anfragen ins Internet erledigt.
+
 Um die IP Adresse über die die Daten zum Freifunk Rheinland gehen sollen einzurichten muss folgender Abschitt in die 'interfaces' eingetragen werden.
 
 ::
@@ -647,11 +649,13 @@ Die Bird conf für IPv4
 
 ::
 
-	router id 185.66.195.xx;					#Hier muss die Nat IPv4 angegeben werden
+	#Hier muss die Nat IPv4 angegeben werden
+	router id 185.66.19x.xx;
 
 	protocol direct announce {
         table master; # implizit
-        import where net ~ [185.66.195.xx/32];	#Hier muss die Nat IPv4 angegeben werden
+        #Hier muss die Nat IPv4 angegeben werden
+        import where net ~ [185.66.195.xx/32];
         interface "tun-ffrl-uplink";
 	};
 
@@ -660,7 +664,8 @@ Die Bird conf für IPv4
         device routes;
         import none;
         export filter {
-			krt_prefsrc = 185.66.195.xx;		#Hier muss die Nat IPv4 angegeben werden
+			#Hier muss die Nat IPv4 angegeben werden
+			krt_prefsrc = 185.66.195.xx;
             accept;
         };
         kernel table 42;
@@ -674,62 +679,82 @@ Die Bird conf für IPv4
         return (net ~ [0.0.0.0/0]);
 	};
 
-	template bgp uplink {						#Das Temlate wendet wiederkehrende Werte auf die einzelnen BGP Sessions an
-        local as 65xxx;							#Hier muss die eigene AS Nummer eingetragen werden
+	#Das Temlate wendet wiederkehrende Werte auf die einzelnen BGP Sessions an
+	template bgp uplink {
+		#Hier muss die eigene AS Nummer eingetragen werden
+        local as 65xxx;
         import where is_default();
         export where proto = "announce";
 	};
 
-	protocol bgp ffrl_ber_a from uplink {		#Dieser Block muss für alle Backbone Standorte wiederholt werden
-        source address 100.64.2.xxx;			#Dies ist die eigene Adresse im GRE Tunnel
-        neighbor 100.64.2.xxx as 201701;		#Dies ist die Bakbone Adresse im GRE Tunnel und das AS des FFRL
+	#Dieser Block muss für alle Backbone Standorte wiederholt werden
+	protocol bgp ffrl_ber_a from uplink {	
+		#Dies ist die eigene Adresse im GRE Tunnel
+        source address 100.64.X.xxx;
+        #Dies ist die BaCkbone Adresse im GRE Tunnel und das AS des FFRL			
+        neighbor 100.64.X.xxx as 201701;
 	};
+	
+
+
 
 Die Bird conf für IPv6
 
 ::
 
-	router id 185.66.195.xx;													#Auch bei IPv6 muss als Router ID die IPv4 Nat angegeben werden
+	#Auch bei IPv6 muss als Router ID die IPv4 Nat angegeben werden
+	router id 185.66.195.xx;
 
 	protocol direct announce {
         table master; # implizit
-        import where net ~ [2a03:2260:120:xxx::/56];							#Das eigene (vom FFRL zugeteilte) IPv6 Netz
-        interface "tun-ffrl-uplink";
+        #Das eigene (vom FFRL zugeteilte) IPv6 Netz
+		import where net ~ [2a03:2260:120:xxx::/56];
+		interface "tun-ffrl-uplink";
 	};
 
 	protocol kernel {
-        table master;
-        device routes;
-        import none;
-        export filter {
+		table master;
+		device routes;
+		import none;
+		export filter {
 			#  setze src addr beim route-export in kernel tabelle
-			krt_prefsrc = 2a03:2260:120:xxx::1;									#Das eigene (vom FFRL zugeteilte) IPv6 Netz als Quelladresse
+			#Das eigene (vom FFRL zugeteilte) IPv6 Netz als Quelladresse
+			krt_prefsrc = 2a03:2260:120:xxx::1;
 			accept;
-        };
-        kernel table 42;
+		};
+		kernel table 42;
 	};
 
 	protocol device {
-        scan time 15;
+		scan time 15;
 	};
 
 	function is_default() {
-        return (net ~ [::/0]);
+		return (net ~ [::/0]);
 	};
 
 	template bgp uplink {
-        local as 65xxx;															#Die eigene AS Numemr
-        import where is_default();
-        export where proto = "announce";
+		#Die eigene AS Numemer
+		local as 65xxx;
+		import where is_default();
+		export where proto = "announce";
 	};
 
-	protocol bgp ffrl_ber_a from uplink {										#Dieser Block wird je standort wiederholt
-        source address 2a03:2260:0:xxx::2;										#Eigene IPv6 im GRE Tunnel
-        neighbor 2a03:2260:0:xxx::1 as 201701;									#Backbone IPv6 im GRE Tunnel und AS des FFRL
+	#Dieser Block wird je standort wiederholt
+	protocol bgp ffrl_ber_a from uplink {
+		#Eigene IPv6 im GRE Tunnel
+		source address 2a03:2260:0:xxx::2;
+		#Backbone IPv6 im GRE Tunnel und AS des FFRL
+		neighbor 2a03:2260:0:xxx::1 as 201701;
 	};
 
 Routing
 ^^^^^^^
+
+* Forwarding im Netfilter aktivieren damit die Pakete von einem Interface zum nächsten kommen
+* Zweite Netzwerkkarte einrichten zur Verbindung mit den Supernodes
+* Einrichtung von Iptables Regeln inclusive NAT mit Ferm
+* Routingregeln einrichten mithilfe von ip route und ip rule
 Forwarding
 ..........
 In der /etc/sysctl.conf
@@ -758,14 +783,21 @@ in der /etc/network/interfaces legen wir eine eth1 an um den Traffic vom Superno
 
 	auto eth1
 	iface eth1 inet static
-        address 172.16.0.254
-        netmask 255.255.240.0
-        
+        address 172.31.254.254
+        netmask 255.255.255.0
+
 Nun muss im Proxmox für die vm eine eth1 hinzugefügt werden, die auf der vmbr1 hängt und virtio verwendet.
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-59.png
+
+.. image:: http://freifunk-mk.de/gfx/proxmox-60.png
+
 Danach die vm einmal durchbooten.
 
 Ferm
 ....
+
+Ferm lädt beim Systemstart ein Script und erzeugt Iptables Regeln. In folgender Konfigurationsdatei muss nur die IP Adresse fürs source NAT angepasst werden, dies ist die Adresse über die die Daten ins Internet gehen sollen, (nicht die IPv4 Adresse des Vservers).
 
 ::
 
@@ -774,77 +806,133 @@ Ferm
 ::
 
 	# -*- shell-script -*-
-#
-#  Configuration file for ferm(1).
-#
+	#
+	#  Configuration file for ferm(1).
+	#
 
-domain (ip ip6) {
-    table filter {
-        chain INPUT {
-            policy ACCEPT;
+	domain (ip ip6) {
+		table filter {
+			chain INPUT {
+				policy ACCEPT;
 
-            proto gre ACCEPT;
+				proto gre ACCEPT;
 
-            # connection tracking
-            mod state state INVALID DROP;
-            mod state state (ESTABLISHED RELATED) ACCEPT;
+				# connection tracking
+				mod state state INVALID DROP;
+				mod state state (ESTABLISHED RELATED) ACCEPT;
 
-            # allow local packet
-            interface lo ACCEPT;
+				# allow local packet
+				interface lo ACCEPT;
 
-            # respond to ping
-            proto icmp ACCEPT;
+				# respond to ping
+				proto icmp ACCEPT;
 
-            # allow IPsec
-            proto udp dport 500 ACCEPT;
-            proto (esp) ACCEPT;
+				# allow IPsec
+				proto udp dport 500 ACCEPT;
+				proto (esp) ACCEPT;
 
-            # allow SSH connections
-            proto tcp dport ssh ACCEPT;
-        }
-        chain OUTPUT {
-            policy ACCEPT;
+				# allow SSH connections
+				proto tcp dport ssh ACCEPT;
+			}
+			chain OUTPUT {
+				policy ACCEPT;
 
-            # connection tracking
-            #mod state state INVALID DROP;
-            mod state state (ESTABLISHED RELATED) ACCEPT;
-        }
-        chain FORWARD {
-            policy ACCEPT;
+				# connection tracking
+				#mod state state INVALID DROP;
+				mod state state (ESTABLISHED RELATED) ACCEPT;
+			}
+			chain FORWARD {
+				policy ACCEPT;
 
-            # connection tracking
-            mod state state INVALID DROP;
-            mod state state (ESTABLISHED RELATED) ACCEPT;
-        }
-    }
+				# connection tracking
+				mod state state INVALID DROP;
+				mod state state (ESTABLISHED RELATED) ACCEPT;
+			}
+		}
 
-    table mangle {
-        chain PREROUTING {
-            interface tun-ffrl-+ {
-                MARK set-mark 1;
-            }
-        }
+		table mangle {
+			chain PREROUTING {
+				interface tun-ffrl-+ {
+					MARK set-mark 1;
+				}
+			}
 
-        chain POSTROUTING {
-            # mss clamping
-            outerface tun-ffrl-+ proto tcp tcp-flags (SYN RST) SYN TCPMSS clamp-mss-to-pmtu;
-        }
-    }
+			chain POSTROUTING {
+				# mss clamping
+				outerface tun-ffrl-+ proto tcp tcp-flags (SYN RST) SYN TCPMSS clamp-mss-to-pmtu;
+			}
+		}
 
-    table nat {
-        chain POSTROUTING {
-            # nat translation
-            outerface tun-ffrl-+ saddr 172.16.0.0/12 SNAT to 185.66.195.xx;
-            policy ACCEPT;
-            outerface tun-ffrl-+ {
-                MASQUERADE;
-            }
-        }
-    }
-}
+		table nat {
+			chain POSTROUTING {
+				# nat translation
+				outerface tun-ffrl-+ saddr 172.16.0.0/12 SNAT to 185.66.19x.xx;
+				policy ACCEPT;
+				outerface tun-ffrl-+ {
+					MASQUERADE;
+				}
+			}
+		}
+	}
+
+Ab hier Baustelle!!!
+^^^^^^^^^^^^^^^^^^^^
+
+Ab hier ist die Anleitung noch nicht fertig und von der Benutzung abzuraten.
 
 Routing
 .......
+Zum Routing werden Regeln benötigt, die die Pakete aus dem Freifunk Netz und die Pakete vom FFRL Backbone in eine gesonderte Tabelle (Tabelle 42) leiten. In dieser Tabelle wird vom bird per BGP eine Defaultroute ins Backbone gesetzt und manuell Routen zum eigenen Freifunk Netz (zu den Supernodes).
+
+Um eine Menge Handarbeit zu sparen wird das anlegen der Rules für die einzelnen Communities/Supernodes per Script erledigt.
+
+Das script gibt es hier: https://github.com/eulenfunk/scripts/tree/master/konzentrator
+
+Zuerst müssen die Verzeichnisse für die scripte angelegt werden, dann die scripte heruntergeladen und ausführbar gemacht werden.
+
+::
+
+	cd /opt
+	sudo mkdir eulenfunk
+	cd eulenfunk
+	sudo mkdir konzentrator
+	cd konzentrator
+	sudo mkdir config
+	sudo mkdir autostart
+	sudo wget https://raw.githubusercontent.com/eulenfunk/scripts/master/konzentrator/bgp-konzentrator-setup.sh
+	sudo chmod +x bgp-konzentrator-setup.sh
+	sudo wget https://raw.githubusercontent.com/eulenfunk/scripts/master/konzentrator/supernode.sh
+	sudo chmod +x supernode.sh
+
+
+Im ordner config wird je supernode ein config file angelegt
+
+::
+
+	cd config
+	sudo nano meinestadt-1
+
+
+::
+	# Beschreibender Name "stadt-N"
+	SUPERNODE_NAME=tollestadt-1
+
+	# IPv4 Konfiguration
+	SUPERNODE_CLIENT_IPV4_NET=<IPv4 Netz fuer die Clients, 172.XX.0.0/16>
+	SUPERNODE_TRANS_IPV4_NET=<IPv4 Transit-Netz, 172.31.YYY.0/24>
+
+	SUPERNODE_TRANS_IPV4_LOCAL=<Lokale IPv4 Adresse Transit-Netz, 172.31.YYY.254>
+	SUPERNODE_TRANS_IPV4_REMOTE=<Remote IPv4 Adresse Transit-Netz, 172.31.YYY.1>
+
+	# IPv6 Konfiguration
+	SUPERNODE_CLIENT_IPV6_NET=<IPv6 Netz fuer die Clients, 2a03:2260:AAAA:BBBB::/64>
+	SUPERNODE_TRANS_IPV6_NET=<IPv6 Supernetz fuer Transit, 2a03:2260:AAAA:BBBB::/56>
+	SUPERNODE_TRANS_IPV6_LOCAL=<IPv6 Supernetz lokale Adresse, 2a03:2260:AAAA:BBBB::1>
+	SUPERNODE_TRANS_IPV6_REMOTE=<IPv6 Supernetz remote Adresse, 2a03:2260:AAAA:BBB::2>
+
+
+Damit das Script auch beim boot seine Arbeit verrichten kann muss es in die rc.local eingetragen werden.
+
 
 ::
 
@@ -853,24 +941,91 @@ Routing
 ::
 
 	#!/bin/sh -e
-# rc.local
+	# rc.local
+	/opt/eulenfunk/konzentrator/bgp-konzentrator-setup.sh
+	exit 0
 
-ip -4 rule add prio 1000 from 172.16.0.0/12 table internet
-ip -6 rule add prio 1000 from 2a03:2260:120::/56 table internet
+Monitoring
+^^^^^^^^^^
 
-ip -4 rule add prio 1000 fwmark 0x1 table internet
-ip -6 rule add prio 1000 fwmark 0x1 table internet
+Das Monitoring beinhaltet folgende Komponenten:
 
-FFRL_IFS="tun-ffrl-dus-a tun-ffrl-dus-b tun-ffrl-ber-a tun-ffrl-ber-b"
-for interface in $FFRL_IFS; do
-    ip -4 rule add prio 1001 iif $interface table internet
-    ip -6 rule add prio 1001 iif $interface table internet
-done
+* Check_MK ermöglicht das zentrale Monitoring aller Systemdaten aller eingebundenen Server
+* vnstat erstellt Traffic Statistiken, die sich auf der shell anzeigen lassen
+* vnstati generiert daraus Grafiken
+* lighttpd stellt diese zum Abruf aus dem Internet bereit
 
-ip -4 rule add prio 2000 from 172.16.0.0/12 table unreachable
-ip -4 route add default unreachable table unreachable
+Check_MK Agent imstallieren
+...........................
 
-exit 0
+Den Check_MK Agent steht in der Weboberfläche des Check_MK als .deb Paket bereit: 
+
+In die CheckMK-Instanz per Webbrowser einloggen. Dann suchen: 
+
+::
+
+        -> WATO Configuration (Menü/Box)
+        -> Monitoring Agents
+        -> Packet Agents
+        -> check-mk-agent_1.2.6p15-1_all.deb _(Beispiel)_
+
+Den Download-Link in die Zwischenablage kopieren. 
+Im ssh-terminal nun eingeben: (die Download-URL ist individuell und der Name des .deb-Paketes ändert sich ggf.)
+
+::
+
+        wget --no-check-certificate https://monitoring.freifunk-mk.de/heimathoster/check_mk/agents/check-mk-agent_1.2.6p15-1_all.deb
+
+Um das .deb Paket zu installieren wird gdebi empfohlen, ausserdem benötigt der Agent xinetd zum ausliefern der monitoring Daten. Die Installation von gdebi kann durchaus einige Dutzend Pakete holen. Das ist leider normal. 
+Per SSH auf dem Server. (Auch hier: Name des .deb-Files ggf. anpassen)
+
+::
+
+	apt-get install gdebi xinetd
+	gdebi check-mk-agent_1.2.6p15-1_all.deb
+
+
+Der Rechner hält ab nun Daten zum Abruf bereit. 
+
+_ToDo: Neuen Rechner im CheckMK eintragen in richtige Gruppe & Monitoring scharf schalten.
+Alternativ JJX Bescheid sagen, der kümmert sich dann darum.
+
+vnstat einrichten
+.................
+
+folgender Befehl
+
+::
+
+	vnstat
+
+sollte so ein Ergebnis ausgeben
+
+::
+
+	Database updated: Thu Feb 25 02:58:22 2016
+
+	   eth0 since 02/02/16
+
+			  rx:  20.50 GiB      tx:  13.98 GiB      total:  34.48 GiB
+
+	   monthly
+						 rx      |     tx      |    total    |   avg. rate
+		 ------------------------+-------------+-------------+---------------
+		   Feb '16     20.50 GiB |   13.98 GiB |   34.48 GiB |  138.78 kbit/s
+		 ------------------------+-------------+-------------+---------------
+		 estimated     24.65 GiB |   16.81 GiB |   41.45 GiB |
+
+	   daily
+						 rx      |     tx      |    total    |   avg. rate
+		 ------------------------+-------------+-------------+---------------
+		 yesterday      7.46 GiB |    1.64 GiB |    9.10 GiB |  883.93 kbit/s
+			 today      8.19 MiB |   11.23 MiB |   19.43 MiB |   14.87 kbit/s
+		 ------------------------+-------------+-------------+---------------
+		 estimated        64 MiB |      88 MiB |     152 MiB |
+
+
+==Hier sollte jetzt stehen aus welchem git man sich das script für den cronjob zum erzeugen der Bilder zieht und wo man die index.html für den lighttpd bekommt==
 
 Supernode einrichten
 --------------------
