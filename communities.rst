@@ -1,8 +1,8 @@
 Communities
 ===========
 
-Organigram
-----------
+Organigramm
+-----------
 
 * Flingern
 * Fichtenfunk
