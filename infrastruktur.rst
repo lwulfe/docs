@@ -1,10 +1,4 @@
-
-AAAAB3NzaC1yc2EAAAABJQAAAQEAlZ+7CFailoU29vuUydvKI3DA6zXB7q7MB6cy
-v8uv7cERc4JFsHQ/v+Pk7wnM2vGRrLSL+Ow4kPLt055w4ttgzEKV5AwwZVtQu/63
-bedpqY8lB011O1uxb+OzBhQC8dY4/80b1yfp25/6vM1Pv1nUCYNsoOz1shJpK4Tm
-WXFnpNv/PRFLQCyx7r2JoWlCxJF1ABmXEoA69rpuVAaEmWiIXiG6iPiL/mEdANjf
-up172+Lrc5hjhFTXX/WFsBEdqnIDQuTrqyITxX16Hbw/rIEhUfMMycWOE3BlVwyC
-7iYDczpmSppXq/6tNlkz1u0ZHB2U+EQq4E/IwXRmrM0UJVailw==Infrastruktur
+Infrastruktur
 =============
 
 gemietete Hosts
@@ -122,4 +116,6 @@ Signkeys für gluon-Firmware/Autoupdater
 |'579de7b1ded1dc39583515f722d72524f6dce78da635a7ac2d11cfe1dc046e7e', -- tuennes        |
 +--------------------------------------------------------------------------------------+
 |'d0647b68ff46d35394d99630f9337e39786f51f5bdcee5bd26b7b2c729045cb6', -- jenkins        |
++--------------------------------------------------------------------------------------+
+|'a2e21ef5743945befa8f88f10a1a168050909d82e4d836bcf879eb573b9ce777', -- domfi          |
 +--------------------------------------------------------------------------------------+
