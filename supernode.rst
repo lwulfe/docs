@@ -551,6 +551,21 @@ Die Zeile
 	UsePAM no
 
 Achtung, auch wenn yes auskommentiert ist besteht die Möglichkeit sich per Password zu verbinden, erst wenn no gesetzt ist und nicht auskommentiert ist, ist der Zugriff nur noch per Key möglich.
+
+Um es den Script-Kiddies und Bots etwas schwerer zu machen, sollte der Port 22 auf einen hohen Port (mindestens über 1024) verändert werden. Dazu die Zeile
+
+::
+
+	Port 22
+        
+ändern z.B. in
+
+::
+
+	Port 62954
+
+WICHTIG: Diesen Port muss man sich dann merken, da man ihn später beim Aufruf von ssh angeben muss. Ändernt man diesen Port, muss dieser auch in der Ferm config (weiter unten beschrieben) geändert werden, da ferm sonst nur ssh auf Port 22 zu lässt.
+
 Den Editor wieder verlassen und den SSH Server neu starten um die Einstellungen zu übernehmen
 
 ::
@@ -597,6 +612,89 @@ Pakete installieren
 * xinetd übernimmt die Übertragung der Monitoring Daten
 
 -> Ja Ferm soll beim Systemstart geladen werden.
+
+Ferm einrichten
+^^^^^^^^^^^^^^^^^^^
+
+Ferm lädt beim Systemstart ein Script und erzeugt Iptables Regeln. In folgender Konfigurationsdatei muss die IP Adresse fürs source NAT angepasst werden, dies ist die Adresse über die die Daten ins Internet gehen sollen, (nicht die IPv4 Adresse des Vservers).
+Falls man zuvor den ssh Port geändert hat, muss hier "ssh" durch die Port nummer ersetzt werden 
+
+::
+
+	sudo nano /etc/ferm/ferm.conf
+	
+::
+
+	# -*- shell-script -*-
+	#
+	#  Configuration file for ferm(1).
+	#
+
+	domain (ip ip6) {
+		table filter {
+			chain INPUT {
+				policy ACCEPT;
+
+				proto gre ACCEPT;
+
+				# connection tracking
+				mod state state INVALID DROP;
+				mod state state (ESTABLISHED RELATED) ACCEPT;
+
+				# allow local packet
+				interface lo ACCEPT;
+
+				# respond to ping
+				proto icmp ACCEPT;
+
+				# allow IPsec
+				proto udp dport 500 ACCEPT;
+				proto (esp) ACCEPT;
+
+				# allow SSH connections
+				# proto tcp dport 62954 ACCEPT;
+				proto tcp dport ssh ACCEPT;
+			}
+			chain OUTPUT {
+				policy ACCEPT;
+
+				# connection tracking
+				#mod state state INVALID DROP;
+				mod state state (ESTABLISHED RELATED) ACCEPT;
+			}
+			chain FORWARD {
+				policy ACCEPT;
+
+				# connection tracking
+				mod state state INVALID DROP;
+				mod state state (ESTABLISHED RELATED) ACCEPT;
+			}
+		}
+
+		table mangle {
+			chain PREROUTING {
+				interface tun-ffrl-+ {
+					MARK set-mark 1;
+				}
+			}
+
+			chain POSTROUTING {
+				# mss clamping
+				outerface tun-ffrl-+ proto tcp tcp-flags (SYN RST) SYN TCPMSS clamp-mss-to-pmtu;
+			}
+		}
+
+		table nat {
+			chain POSTROUTING {
+				# nat translation
+				outerface tun-ffrl-+ saddr 172.16.0.0/12 SNAT to 185.66.19x.xx;
+				policy ACCEPT;
+				outerface tun-ffrl-+ {
+					MASQUERADE;
+				}
+			}
+		}
+	}
 
 Nat IPv4 einrichten
 ^^^^^^^^^^^^^^^^^^^
@@ -817,87 +915,6 @@ Nun muss im Proxmox für die vm eine eth1 hinzugefügt werden, die auf der vmbr1
 .. image:: http://freifunk-mk.de/gfx/proxmox-60.png
 
 Danach die vm einmal durchbooten.
-
-Ferm
-....
-
-Ferm lädt beim Systemstart ein Script und erzeugt Iptables Regeln. In folgender Konfigurationsdatei muss nur die IP Adresse fürs source NAT angepasst werden, dies ist die Adresse über die die Daten ins Internet gehen sollen, (nicht die IPv4 Adresse des Vservers).
-
-::
-
-	sudo nano /etc/ferm/ferm.conf
-	
-::
-
-	# -*- shell-script -*-
-	#
-	#  Configuration file for ferm(1).
-	#
-
-	domain (ip ip6) {
-		table filter {
-			chain INPUT {
-				policy ACCEPT;
-
-				proto gre ACCEPT;
-
-				# connection tracking
-				mod state state INVALID DROP;
-				mod state state (ESTABLISHED RELATED) ACCEPT;
-
-				# allow local packet
-				interface lo ACCEPT;
-
-				# respond to ping
-				proto icmp ACCEPT;
-
-				# allow IPsec
-				proto udp dport 500 ACCEPT;
-				proto (esp) ACCEPT;
-
-				# allow SSH connections
-				proto tcp dport ssh ACCEPT;
-			}
-			chain OUTPUT {
-				policy ACCEPT;
-
-				# connection tracking
-				#mod state state INVALID DROP;
-				mod state state (ESTABLISHED RELATED) ACCEPT;
-			}
-			chain FORWARD {
-				policy ACCEPT;
-
-				# connection tracking
-				mod state state INVALID DROP;
-				mod state state (ESTABLISHED RELATED) ACCEPT;
-			}
-		}
-
-		table mangle {
-			chain PREROUTING {
-				interface tun-ffrl-+ {
-					MARK set-mark 1;
-				}
-			}
-
-			chain POSTROUTING {
-				# mss clamping
-				outerface tun-ffrl-+ proto tcp tcp-flags (SYN RST) SYN TCPMSS clamp-mss-to-pmtu;
-			}
-		}
-
-		table nat {
-			chain POSTROUTING {
-				# nat translation
-				outerface tun-ffrl-+ saddr 172.16.0.0/12 SNAT to 185.66.19x.xx;
-				policy ACCEPT;
-				outerface tun-ffrl-+ {
-					MASQUERADE;
-				}
-			}
-		}
-	}
 
 Ab hier Baustelle!!!
 ^^^^^^^^^^^^^^^^^^^^
